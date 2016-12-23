@@ -39,7 +39,7 @@ __Required Parameters__
 realm_uuid          = 'a4b3e1f96e997ffa909571f41b92cd1b'
 access_token        = '14c4eacb5edfaacbe9e112aba30add60'
 
-email_settings_hash = Unimatrix::RegentSDK::EmailSettingsRequest.new(
+email_settings = Unimatrix::RegentSDK::EmailSettingsRequest.new(
   realm_uuid,
   access_token
 ).retrieve
