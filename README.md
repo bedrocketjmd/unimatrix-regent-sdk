@@ -36,8 +36,8 @@ __Required Parameters__
 * An `access_token` that resolves to a `resource_owner` with a policy for the given allowing `read` action for the `Realms` resource (NOTE: Tokens can be retrieved using the [unimatrix-keymaker-sdk](https://github.com/bedrocketjmd/unimatrix-keymaker-sdk))
 
 ```ruby
-realm_uuid          = 'a4b3e1f96e997ffa909571f41b92cd1b'
-access_token        = '14c4eacb5edfaacbe9e112aba30add60'
+realm_uuid     = 'a4b3e1f96e997ffa909571f41b92cd1b'
+access_token   = '14c4eacb5edfaacbe9e112aba30add60'
 
 email_settings = Unimatrix::RegentSDK::EmailSettingsRequest.new(
   realm_uuid,
