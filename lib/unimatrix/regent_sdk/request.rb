@@ -1,0 +1,42 @@
+require 'net/http'
+require 'addressable/uri'
+
+module Unimatrix::RegentSdk
+
+  class Request
+
+    def initialize( path, default_parameters = {} )
+      uri   = URI( Unimatrix::RegentSdk.configuration.url )
+      @http = Net::HTTP.new( uri.host, uri.port )
+      @path = path
+      @default_parameters = default_parameters.stringify_keys
+    end
+
+    def get( parameters = {} )
+      response = nil
+
+      begin
+        response = Response.new(
+          @http.get( compose_request_path( @path, parameters ) )
+        )
+      rescue Timeout::Error
+        response = nil
+      end
+
+      response
+    end
+
+    protected; def compose_request_path( path, parameters = {} )
+      parameters        = @default_parameters.merge( parameters.stringify_keys )
+      addressable       = Addressable::URI.new
+      addressable.path  = path
+      include_settings  = parameters.delete( "include_settings" )
+      addressable.query = parameters.to_param unless parameters.blank?
+      addressable.query += "&include[settings]" if include_settings
+
+      addressable.to_s
+    end
+
+  end
+
+end
