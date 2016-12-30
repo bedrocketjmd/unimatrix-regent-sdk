@@ -16,5 +16,7 @@ Gem::Specification.new do | spec |
   spec.require_paths = [ "lib" ]
   spec.files         = Dir.glob( "{lib}/**/*" )
   
+  spec.add_runtime_dependency( "activesupport", ">= 4.2" )
+  
   spec.add_development_dependency( "pry", "~> 0.10.1" )
 end
