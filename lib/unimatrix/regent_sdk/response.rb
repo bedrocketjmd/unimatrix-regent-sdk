@@ -19,7 +19,10 @@ module Unimatrix::RegentSdk
           @success        = !( parser.type_name == 'error' )
         end
       else
-        @success = false
+        @success  = false
+        @settings << Error.new(
+          message: "#{ @code }: #{ http_response.message }."
+        )
       end
     end
 
