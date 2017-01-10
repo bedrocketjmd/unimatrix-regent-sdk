@@ -4,7 +4,7 @@
 Add this line to your applications Gemfile:
 
 ```ruby
-gem 'unimatrix-regent-sdk'
+gem 'unimatrix-regent'
 ```
 
 And then execute:
@@ -21,7 +21,7 @@ REGENT_URL=https://regent.boxxspring.com
 ```
 
 ### Realms Index Request
-Returns the first 10 realms in the databse as well as unlimited count.
+Returns the first 10 realms in the databse as an array of Realm objects.
 
 __Required Parameters__
 
@@ -29,254 +29,147 @@ __Required Parameters__
 * Access token with the correct policy (Resource Server: Regent, Resource: Realms, action: "query")
 
 ```ruby
-request = Unimatrix::RegentSdk::Request.new(
+request = Unimatrix::Regent::Operation.new(
   '/realms',
   access_token: '14c4eacb5edfaacbe9e112aba30add60'
 )
 
-response = request.get
+response = request.query
 ```
 
 __Response Format__
 
-```json
-{
-  "$this": {
-    "name": "realms",
-    "type_name": "realm",
-    "ids": [
-      1,
-      2,
-      3,
-    ],
-    "unlimited_count": 3,
-    "count": 3
-  },
-  "realms": [
-    {
-      "uuid": "70eec79c8f5995b4f6f79e055f254e44",
-      "type_name": "realm",
-      "name": "Boxxspring Documentation Library",
-      "code_name": "boxxspring-documentation-library",
-      "domain_name": "nil",
-      "created_at": "2016-12-04T20:04:20.774Z",
-      "updated_at": "2016-12-04T20:04:20.774Z"
-    },
-    {
-      "uuid": "c6b4bb942117d2cc7cf20801e794ac7c",
-      "type_name": "realm",
-      "name": "Turbine Demo",
-      "code_name": "turbine-demo",
-      "domain_name": "nil",
-      "created_at": "2016-12-04T20:04:20.833Z",
-      "updated_at": "2016-12-04T20:04:20.833Z"
-    },
-    {
-      "uuid": "d27f1b8d5b31f159c4fa17db3c1a15e1",
-      "type_name": "realm",
-      "name": "Roku Network A",
-      "code_name": "roku_networka",
-      "domain_name": "networka.roku.com",
-      "created_at": "2016-12-04T20:04:20.884Z",
-      "updated_at": "2016-12-04T20:04:20.884Z"
-    }
-  ]
-}
+```ruby
+[#<Unimatrix::Regent::Realm:0x007fd1cb433fb0
+  @code_name="boxxspring-documentation-library",
+  @created_at="2016-12-04T20:04:20.774Z",
+  @domain_name="nil",
+  @id=1,
+  @name="Boxxspring Documentation Library",
+  @type_name="realm",
+  @updated_at="2016-12-04T20:04:20.774Z",
+  @uuid="8ca59e2e39f5370e8db640546dbff413">,
+ #<Unimatrix::Regent::Realm:0x007fd1cb433790
+  @code_name="turbine-demo",
+  @created_at="2016-12-04T20:04:20.833Z",
+  @domain_name="nil",
+  @id=2,
+  @name="Turbine Demo",
+  @type_name="realm",
+  @updated_at="2016-12-04T20:04:20.833Z",
+  @uuid="9850d6c59009712d83e804d1ec77c443">,
+ #<Unimatrix::Regent::Realm:0x007fd1cb432f48
+  @code_name="roku_networka",
+  @created_at="2016-12-04T20:04:20.884Z",
+  @domain_name="networka.roku.com",
+  @id=3,
+  @name="Roku Network A",
+  @type_name="realm",
+  @updated_at="2016-12-04T20:04:20.884Z",
+  @uuid="92ad1b22dfba6e766d838c0cd0f76baf">]
 ```
 __Offset__
 
-If there are more than 10 results, to receive the next set of results, send an offset parameter along with the access token
+If there are more than 10 results, to receive the next set of results call `offset` and the offset number (ie. 10 would return results 11-20, if they exist):
 
 ```ruby
-request = Unimatrix::RegentSdk::Request.new(
+request = Unimatrix::Regent::Operation.new(
   '/realms',
-  access_token: '14c4eacb5edfaacbe9e112aba30add60',
-  offset: 10
-)
+  access_token: '14c4eacb5edfaacbe9e112aba30add60'
+).offset( 10 )
 
-response = request.get
+response = request.query
 ```
 
-__Count__
+__Limit__
 
-You can request a specific number of returns by sending a count (max 100)
+You can request all returns up to a limit (max 100)
 
 ```ruby
-request = Unimatrix::RegentSdk::Request.new(
+request = Unimatrix::Regent::Operation.new(
   '/realms',
-  access_token: '14c4eacb5edfaacbe9e112aba30add60',
-  count: 25
-)
+  access_token: '14c4eacb5edfaacbe9e112aba30add60'
+).limit( 25 )
 
-response = request.get
+response = request.query
 ```
 
 ### Realm by UUID
-Returns information on a specific realm.
+Returns information on a specific realm in the format of an array containing the Realm object.
 
 __Required Parameters__
 
-* Path including the realm_uuid: `'/realms/d27f1b8d5b31f159c4fa17db3c1a15e1'`
+* Path including the realm_uuid: `'/realms/8ca59e2e39f5370e8db640546dbff413'`
 * Access token with the correct policy (Resource Server: Regent, Resource: Realms, action: "read")
 
 ```ruby
-request = Unimatrix::RegentSdk::Request.new(
-  '/realms/d27f1b8d5b31f159c4fa17db3c1a15e1',
+request = Unimatrix::Regent::Operation.new(
+  '/realms/8ca59e2e39f5370e8db640546dbff413',
   access_token: '14c4eacb5edfaacbe9e112aba30add60'
 )
 
-response = request.get
+response = request.query
 ```
 
 __Response Format__
 
-```json
-{
-  "$this": {
-    "name": "realms",
-    "type_name": "realm",
-    "ids": [
-      3
-    ]
-  },
-  "realms": [
-    {
-      "uuid": "d27f1b8d5b31f159c4fa17db3c1a15e1",
-      "type_name": "realm",
-      "name": "Roku Network A",
-      "code_name": "roku_networka",
-      "domain_name": "networka.roku.com",
-      "created_at": "2016-12-04T20:04:20.884Z",
-      "updated_at": "2016-12-04T20:04:20.884Z"
-    }
-  ]
-}
+```ruby
+[#<Unimatrix::Regent::Realm:0x007fd1cb433fb0
+  @code_name="boxxspring-documentation-library",
+  @created_at="2016-12-04T20:04:20.774Z",
+  @domain_name="nil",
+  @id=1,
+  @name="Boxxspring Documentation Library",
+  @type_name="realm",
+  @updated_at="2016-12-04T20:04:20.774Z",
+  @uuid="8ca59e2e39f5370e8db640546dbff413">]
 ```
-__Include Settings__
+### Include Settings
+
+Returns an array containing the Realm object and nested Settings objects associated to that Realm.
 
 ```ruby
-request = Unimatrix::RegentSdk::Request.new(
-  '/realms/d27f1b8d5b31f159c4fa17db3c1a15e1',
-  access_token: '14c4eacb5edfaacbe9e112aba30add60',
-  include_settings: true
-)
+request = Unimatrix::Regent::Operation.new(
+  '/realms/8ca59e2e39f5370e8db640546dbff413',
+  access_token: '14c4eacb5edfaacbe9e112aba30add60'
+).include( :settings )
 
-response = request.get
+response = request.query
 ```
 
 __Response format with settings__
 
-Returns information on a specific realm including settings.
+```ruby
+[#<Unimatrix::Regent::Realm:0x007fa0a4c7a000
+  @_settings=
+   [#<Unimatrix::Regent::Setting:0x007fa0a4c82e80
+     @content="false",
+     @created_at="2016-12-04T21:32:24.188Z",
+     @id=48,
+     @name="com.boxxspring.embed.enabled",
+     @realm_uuid="8ca59e2e39f5370e8db640546dbff413",
+     @type_name="setting",
+     @updated_at="2016-12-04T21:32:24.188Z">,
+    #<Unimatrix::Regent::Setting:0x007fa0a4c824d0
+     @content="video_artifact",
+     @created_at="2016-12-04T21:32:28.439Z",
+     @id=96,
+     @name="com.boxxspring.video.type_names",
+     @realm_uuid="8ca59e2e39f5370e8db640546dbff413",
+     @type_name="setting",
+     @updated_at="2016-12-04T21:32:28.439Z">],
+  @code_name="boxxspring-documentation-library",
+  @created_at="2016-12-04T20:04:20.774Z",
+  @domain_name="nil",
+  @id=1,
+  @name="Boxxspring Documentation Library",
+  @type_name="realm",
+  @updated_at="2016-12-04T20:04:20.774Z",
+  @uuid="8ca59e2e39f5370e8db640546dbff413">]
+```
+
+## Error Format
 
 ```json
-{
-  "$this": {
-    "name": "realms",
-    "type_name": "realm",
-    "ids": [
-      3
-    ]
-  },
-  "realms": [
-    {
-      "uuid": "d27f1b8d5b31f159c4fa17db3c1a15e1",
-      "type_name": "realm",
-      "name": "Roku Network A",
-      "code_name": "roku_networka",
-      "domain_name": "networka.roku.com",
-      "created_at": "2016-12-04T20:04:20.884Z",
-      "updated_at": "2016-12-04T20:04:20.884Z"
-    }
-  ],
-  "settings": [
-    {
-      "id": 8,
-      "type_name": "setting",
-      "name": "artifact.type_names",
-      "content": "annotation_artifact,article_artifact,attribution_artifact,audio_artifact,author_artifact,form_artifact,group_artifact,headline_artifact,list_article_artifact,media_artifact,page_artifact,picture_artifact,playlist_artifact,post_artifact,reaction_artifact,section_artifact,stream_artifact,tag_artifact,text_artifact,video_artifact,game_artifact,league_artifact,player_artifact,season_artifact,team_artifact",
-      "created_at": "2016-12-04T21:32:20.565Z",
-      "updated_at": "2016-12-04T21:32:20.565Z",
-      "realm_uuid": "7f717472083800ff8a5312f617c9b36e"
-    },
-    {
-      "id": 53,
-      "type_name": "setting",
-      "name": "com.boxxspring.video.type_names",
-      "content": "video_artifact",
-      "created_at": "2016-12-04T21:32:24.741Z",
-      "updated_at": "2016-12-04T21:32:24.741Z",
-      "realm_uuid": "7f717472083800ff8a5312f617c9b36e"
-    }
-  ],
-  "$associations": {
-    "realms": [
-      {
-        "id": 8,
-        "settings": {
-          "type_name": "setting",
-          "ids": [
-            8,
-            53
-          ]
-        }
-      }
-    ]
-  }
-}
-
-```
-
-__Required Parameters__
-
-
-
-### Email Settings Request
-This request filters the response to only email settings and returns them with the name expected by email templates currently in Keymaker/Dealer.
-
-
-__Required Parameters__
-
-* Realm uuid for the email settings desired
-* Access token with the correct permissions
-
-```ruby
-realm_uuid     = 'a4b3e1f96e997ffa909571f41b92cd1b'
-access_token   = '14c4eacb5edfaacbe9e112aba30add60'
-
-email_settings_request = Unimatrix::RegentSDK::EmailSettingsRequest.new(
-  realm_uuid,
-  access_token
-)
-
-email_settings = email_settings_request.retrieve
-```
-
-The email settings request returns email specific settings for a given authentication realm.  The return is an array of hashes, each hash being one setting containing the `name` and `content`:
-
-```ruby
-[
-  { "name": "first_setting_name", "content": "first_setting_content" },
-  { "name": "second_setting_name", "content": "second_setting_content" }
-]
-```
-
-### Error Format
-
-```json
-{
-  "$this": {
-    "name": "errors",
-    "type_name": "error",
-    "ids": [
-      70114393578920
-    ]
-  },
-  "errors": [
-    {
-      "id": 70114393578920,
-      "type_name": "forbidden_error",
-      "message": "The requested policies could not be retrieved."
-    }
-  ]
-}
+[#<Unimatrix::Regent::Error:0x007fba49bd2080 @message="The requested policies could not be retrieved.", @type_name="forbidden_error">]
 ```
