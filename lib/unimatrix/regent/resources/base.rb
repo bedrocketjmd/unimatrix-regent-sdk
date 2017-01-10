@@ -1,4 +1,4 @@
-module Unimatrix::RegentSdk
+module Unimatrix::Regent
 
   class Base
 
@@ -52,7 +52,7 @@ module Unimatrix::RegentSdk
     has_many  :errors
 
     def initialize( attributes={}, associations={} )
-      self.type_name = self.class.name.gsub( /Unimatrix::RegentSdk::/, '' ).underscore
+      self.type_name = self.class.name.gsub( /Unimatrix::Regent::/, '' ).underscore
 
       attributes.each do | key, value |
         send( "#{ key }=", value ) if respond_to?( "#{ key }=" )

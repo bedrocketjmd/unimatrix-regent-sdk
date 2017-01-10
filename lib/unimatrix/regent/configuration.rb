@@ -1,6 +1,6 @@
 require 'singleton'
 
-module Unimatrix::RegentSdk
+module Unimatrix::Regent
 
   def self.configuration( &block )
     Configuration.instance().instance_eval( &block ) unless block.nil?

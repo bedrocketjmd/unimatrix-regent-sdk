@@ -1,4 +1,4 @@
-module Unimatrix::RegentSdk
+module Unimatrix::Regent
 
   class Error < Base
     field :code

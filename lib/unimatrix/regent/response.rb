@@ -1,26 +1,25 @@
-module Unimatrix::RegentSdk
+module Unimatrix::Regent
   
   class Response
     
     attr_reader :code
     attr_reader :body
-    attr_reader :settings
+    attr_reader :resources
 
     def initialize( http_response )
       @success        = http_response.is_a?( Net::HTTPOK )
       @code           = http_response.code
-      @settings       = []
-      @email_settings = []
+      @resources      = []
       @body           = decode_response_body( http_response )
 
       if ( @body && @body.respond_to?( :keys ) )
         Parser.new( @body ) do | parser |
-          @settings       = parser.settings
-          @success        = !( parser.type_name == 'error' )
+          @resources = parser.resources
+          @success   = !( parser.type_name == 'error' )
         end
       else
         @success  = false
-        @settings << Error.new(
+        @resources << Error.new(
           message: "#{ @code }: #{ http_response.message }."
         )
       end
