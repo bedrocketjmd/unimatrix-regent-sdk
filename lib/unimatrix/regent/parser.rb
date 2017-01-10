@@ -153,19 +153,5 @@ module Unimatrix::Regent
         index
       end
     end
-
-    # def parse_associations( attributes )
-    #   result = {}
-    # 
-    #   attributes.each do | attr_name, attr_value |
-    #     if attr_value.class == Hash
-    #       resource = self.parse_resource( attr_name, attr_value )
-    #       result[ attr_name ] = result[ attr_name ] || []
-    #       result[ attr_name ].push( resource )
-    #       result[ attr_name ].compact!
-    #     end
-    #   end
-    #   result
-    # end
   end
 end
