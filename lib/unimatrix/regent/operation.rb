@@ -87,25 +87,6 @@ module Unimatrix::Regent
       result
     end
 
-    def write( node, objects, &block )
-      result = nil
-      Request.new.tap do | request |
-        serializer = Serializer.new( objects )
-        response = request.post( @path, @parameters, serializer.serialize( node ) )
-        if response.present?
-          result = response.resources
-          if block_given?
-            case block.arity 
-              when 0; yield 
-              when 1; yield result
-              when 2; yield result, response
-            end
-          end        
-        end 
-      end
-      result
-    end
-
     protected; def spawn( parameters  )
       Operation.new( 
         @path,

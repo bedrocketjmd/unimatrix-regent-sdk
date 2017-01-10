@@ -14,25 +14,6 @@ module Unimatrix::Regent
       
       @default_parameters = default_parameters.stringify_keys
     end
-    
-    def destroy( path, parameters = {} )
-
-      begin  
-               
-        request = Net::HTTP::Delete.new( 
-          compose_request_path( path, parameters ), 
-          { 'Content-Type' =>'application/json' }
-        )
-
-        response = Response.new( @http.request( request ) )
-        
-      rescue Timeout::Error
-        response = nil
-      end
-
-      response
-    
-    end
 
     def get( path, parameters = {} )
       response = nil
@@ -46,28 +27,6 @@ module Unimatrix::Regent
       end
 
       response
-    end
-    
-    def post( path, parameters = {}, body = {} )
-  
-      response = nil
-      
-      begin  
-               
-        request = Net::HTTP::Post.new( 
-          compose_request_path( path, parameters ), 
-          { 'Content-Type' =>'application/json' }
-        )
-        request.body = body.to_json
-
-        response = Response.new( @http.request( request ) )
-        
-      rescue Timeout::Error
-        response = nil
-      end
-        
-      response
-                      
     end
 
     protected; def compose_request_path( path, parameters = {} )
