@@ -170,6 +170,8 @@ __Response format with settings__
 
 ## Error Format
 
-```json
-[#<Unimatrix::Regent::Error:0x007fba49bd2080 @message="The requested policies could not be retrieved.", @type_name="forbidden_error">]
+```ruby
+[#<Unimatrix::Regent::Error:0x007fba49bd2080 
+  @message="The requested policies could not be retrieved.", 
+  @type_name="forbidden_error">]
 ```
