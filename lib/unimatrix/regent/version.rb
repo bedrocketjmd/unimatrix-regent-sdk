@@ -1,5 +1,5 @@
 module Unimatrix
-  module RegentSdk
+  module Regent
     VERSION = "0.0.2"
   end
 end
